@@ -15,8 +15,9 @@ window.onload = function() {
     dropdownStates[menuId] = false;
     dropdownChoices[menuId] = 0;
 
-    // set checkmark
+    // set selected style
     dropdowns[i].querySelector('.dropdown-item').insertAdjacentHTML('beforeend', '<i class="fas fa-check"></i>')
+    dropdowns[i].querySelector('.dropdown-item').classList.add('selected-item');
   }
 }
 
@@ -48,14 +49,16 @@ function toggleDropdown(e) {
 function updateSelection(index, menuItems, menuId) {
 
   console.log(index + " " + menuItems);
-  // remove previous checkmark
+  // remove previous selection
   menuItems[dropdownChoices[menuId]].querySelector('i').remove();
+  menuItems[dropdownChoices[menuId]].classList.remove('selected-item');
 
   // update object
   dropdownChoices[menuId] = index;
 
   // update new selection
   menuItems[index].insertAdjacentHTML('beforeend', '<i class="fas fa-check"></i>');
+  menuItems[index].classList.add('selected-item');
 }
 
 // close all dropdowns

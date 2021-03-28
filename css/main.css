@@ -3,13 +3,8 @@ html {
   font-weight: 400;
 }
 
-:focus {
-  outline: 2px solid #F9BF01;
-  outline-offset: -4px;
-}
-
 body {
-  background-color: #CCCCCC;
+  background-color: #C6D9E6;
   padding: 32px;
 }
 
@@ -22,8 +17,17 @@ button {
   font-size: 14px;
 }
 
+i.fa-check {
+  color: #1586C1;
+}
+
 :focus {
-  border: 5px solid red;
+  outline: 3px solid #159AF4;
+  outline-offset: -3px;
+}
+
+.selected-item {
+  background-color: #DEDEDE !important;
 }
 
 .label {
@@ -44,6 +48,7 @@ button {
   padding: 0 16px;
   margin: 0;
   border: none;
+  border-bottom: 2px solid #31454E;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -54,6 +59,7 @@ button {
   display: none;
   position: absolute;
   flex-direction: column;
+  box-shadow: 0 0 8px #31454E;
 }
 
 .dropdown-item {
@@ -69,4 +75,9 @@ button {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.dropdown-item:hover {
+  background-color: #EFEFEF;
+  cursor: pointer;
 }
