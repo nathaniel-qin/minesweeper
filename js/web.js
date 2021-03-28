@@ -14,9 +14,18 @@ window.onload = function() {
     let menuId = dropdowns[i].querySelector('.dropdown-menu').id;
     dropdownStates[menuId] = false;
     dropdownChoices[menuId] = 0;
+
+    // set checkmark
+    dropdowns[i].querySelector('.dropdown-item').insertAdjacentHTML('beforeend', '<i class="fas fa-check"></i>')
   }
 }
 
+// helper function to check if input is a number
+function isNumber(str) {
+  return !isNaN(str) && str !== "";
+}
+
+// opens or closes the selected dropdown
 function toggleDropdown(e) {
 
   // variable declarations
@@ -29,11 +38,27 @@ function toggleDropdown(e) {
   dropdownStates[menuId] = !dropdownStates[menuId];
   menu.style.display = dropdownStates[menuId] ? 'flex' : 'none';
 
-  // set choice
-  let choice = target.id.slice(-1);
-  if(choice) dropdownChoices[menuId] = target.id.slice(-1);
+  // set choice and update checkmark
+  let currChoice = target.id.slice(-1);
+  if(isNumber(currChoice)) updateSelection(currChoice, menu.querySelectorAll('.dropdown-item'), menuId);
+  else return;
 }
 
+// helper function to update the selection logic for dropdowns
+function updateSelection(index, menuItems, menuId) {
+
+  console.log(index + " " + menuItems);
+  // remove previous checkmark
+  menuItems[dropdownChoices[menuId]].querySelector('i').remove();
+
+  // update object
+  dropdownChoices[menuId] = index;
+
+  // update new selection
+  menuItems[index].insertAdjacentHTML('beforeend', '<i class="fas fa-check"></i>');
+}
+
+// close all dropdowns
 function closeDropdowns() {
 
   // reset dropdownStates object
