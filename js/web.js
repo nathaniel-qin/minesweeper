@@ -41,14 +41,16 @@ function toggleDropdown(e) {
 
   // set choice and update checkmark
   let currChoice = target.id.slice(-1);
-  if(isNumber(currChoice)) updateSelection(currChoice, menu.querySelectorAll('.dropdown-item'), menuId);
+  if(isNumber(currChoice)) updateSelection(currChoice, target.closest('.dropdown'));
   else return;
 }
 
 // helper function to update the selection logic for dropdowns
-function updateSelection(index, menuItems, menuId) {
+function updateSelection(index, dropdown) {
 
-  console.log(index + " " + menuItems);
+  let menuItems = dropdown.querySelectorAll('.dropdown-item');
+  let menuId = dropdown.querySelector('.dropdown-menu').id;
+
   // remove previous selection
   menuItems[dropdownChoices[menuId]].querySelector('i').remove();
   menuItems[dropdownChoices[menuId]].classList.remove('selected-item');
@@ -59,6 +61,8 @@ function updateSelection(index, menuItems, menuId) {
   // update new selection
   menuItems[index].insertAdjacentHTML('beforeend', '<i class="fas fa-check"></i>');
   menuItems[index].classList.add('selected-item');
+  dropdown.querySelector('.dropdown-button').textContent = menuItems[index].textContent;
+
 }
 
 // close all dropdowns

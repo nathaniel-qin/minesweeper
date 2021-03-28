@@ -15,6 +15,9 @@ body * {
 
 button {
   font-size: 14px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 400;
+  margin: 0;
 }
 
 i.fa-check {
@@ -44,15 +47,22 @@ i.fa-check {
   color: black;
   text-align: left;
   width: 312px;
-  height: 48px;
+  height: 46px;
+  transform: translateY(-1px);
   padding: 0 16px;
-  margin: 0;
   border: none;
   border-bottom: 2px solid #31454E;
+  box-sizing: content-box;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  transition: background-color 0.25s ease;
+}
+
+.dropdown-button:hover {
+  background-color: #EFEFEF;
+  cursor: pointer;
 }
 
 .dropdown-menu {
@@ -75,9 +85,27 @@ i.fa-check {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  transition: background-color 0.25s ease;
 }
 
 .dropdown-item:hover {
   background-color: #EFEFEF;
   cursor: pointer;
+}
+
+.button {
+  height: 48px;
+  width: 128px;
+  padding-left: 16px;
+  text-align: left;
+  border: none;
+  background-color: black;
+  color: white;
+  background-color: #0C5198;
+  transition: background-color 0.25s ease;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: #0B437D;
 }
