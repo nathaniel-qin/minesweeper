@@ -19,6 +19,9 @@ window.onload = function() {
     dropdowns[i].querySelector('.dropdown-item').insertAdjacentHTML('beforeend', '<i class="fas fa-check"></i>')
     dropdowns[i].querySelector('.dropdown-item').classList.add('selected-item');
   }
+
+  // set content
+  updateDifficulty(dropdownChoices.difficulty);
 }
 
 // helper function to check if input is a number
@@ -61,8 +64,10 @@ function updateSelection(index, dropdown) {
   // update new selection
   menuItems[index].insertAdjacentHTML('beforeend', '<i class="fas fa-check"></i>');
   menuItems[index].classList.add('selected-item');
-  dropdown.querySelector('.dropdown-button').textContent = menuItems[index].textContent;
+  dropdown.querySelector('.dropdown-button').childNodes[0].nodeValue = menuItems[index].childNodes[0].nodeValue;
 
+  // update rest of page
+  if(menuId === 'difficulty') updateDifficulty(dropdownChoices[menuId]);
 }
 
 // close all dropdowns

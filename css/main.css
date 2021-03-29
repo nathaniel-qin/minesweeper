@@ -1,27 +1,40 @@
-html {
-  font-family: 'Syne', sans-serif;
+html * {
+  font-family: 'Be Vietnam', sans-serif;
   font-weight: 400;
 }
 
 body {
   background-color: #C6D9E6;
-  padding: 32px;
+  padding: 64px 20%;
 }
 
 body * {
   padding: 0;
   margin: 0;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 button {
-  font-size: 14px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 400;
   margin: 0;
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 800;
 }
 
 i.fa-check {
   color: #1586C1;
+}
+
+.config {
+  display: flex;
+  flex-direction: row;
+}
+
+.page-header {
+  margin-bottom: 32px;
 }
 
 :focus {
@@ -34,7 +47,8 @@ i.fa-check {
 }
 
 .label {
-  font-size: 12px;
+  font-size: 14px;
+  margin-bottom: 4px;
 }
 
 .dropdown {
@@ -50,6 +64,7 @@ i.fa-check {
   height: 46px;
   transform: translateY(-1px);
   padding: 0 16px;
+  margin-top: 16px;
   border: none;
   border-bottom: 2px solid #31454E;
   box-sizing: content-box;
@@ -81,6 +96,7 @@ i.fa-check {
   padding: 0 16px;
   margin: 0;
   border: none;
+  box-sizing: content-box;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -93,19 +109,19 @@ i.fa-check {
   cursor: pointer;
 }
 
-.button {
-  height: 48px;
-  width: 128px;
-  padding-left: 16px;
-  text-align: left;
-  border: none;
-  background-color: black;
-  color: white;
-  background-color: #0C5198;
-  transition: background-color 0.25s ease;
+.stats {
+  margin-left: 64px;
 }
 
-.button:hover {
-  cursor: pointer;
-  background-color: #0B437D;
+.stats-line {
+  display: flex;
+  flex-direction: row;
+}
+
+.stats-label {
+  font-weight: 600;
+}
+
+.stats-value {
+  margin-left: 8px;
 }
