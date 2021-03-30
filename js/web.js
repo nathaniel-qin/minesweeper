@@ -6,6 +6,9 @@ window.onload = function() {
 
   // add event listeners
   document.body.addEventListener('click', closeDropdowns);
+
+  document.getElementById('resetButton').addEventListener('click', resetBoard);
+
   let dropdowns = document.getElementsByClassName('dropdown');
   for(let i = 0; i < dropdowns.length; i++) {
     dropdowns[i].addEventListener('click', toggleDropdown);
@@ -20,7 +23,7 @@ window.onload = function() {
     dropdowns[i].querySelector('.dropdown-item').classList.add('selected-item');
   }
 
-  // set content
+  // set page content
   updateDifficulty(dropdownChoices.difficulty);
 }
 

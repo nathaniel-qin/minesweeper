@@ -1,11 +1,34 @@
+:root {
+  --ui-light: #FFFFFF;
+  --ui-light-selected: #DEDEDE;
+  --ui-light-hover: #EFEFEF;
+  --ui-accent: #31454E;
+  --ui-dark: #54646F;
+  --ui-dark-hover: #64747F;
+  --background-light: #C6D9E6;
+  --background-dark: #9DC0D7;
+  --focus: #159AF4;
+  --icon-dark: #1586C1;
+  --icon-light: #FFFFFF;
+  --text-light: #FFFFFF;
+  --text-dark: #000000;
+  --light-tile: #F3F2ED;
+  --light-revealed-tile: #ADDEFF;
+  --dark-tile: #EFECE3;
+  --dark-revealed-tile: #8BC8F1;
+}
+
 html * {
   font-family: 'Be Vietnam', sans-serif;
   font-weight: 400;
+  color: var(--text-dark);
 }
 
 body {
-  background-color: #C6D9E6;
+  box-sizing: border-box;
+  background-color: var(--background-light);
   padding: 64px 20%;
+  margin: 0;
 }
 
 body * {
@@ -24,13 +47,23 @@ h1 {
   font-weight: 800;
 }
 
+span {
+  color: inherit;
+  font-weight: inherit;
+}
+
 i.fa-check {
-  color: #1586C1;
+  color: var(--icon-dark);
+}
+
+i.fa-redo-alt {
+  color: var(--icon-light);
 }
 
 .config {
   display: flex;
   flex-direction: row;
+  margin-bottom: 48px;
 }
 
 .page-header {
@@ -38,12 +71,12 @@ i.fa-check {
 }
 
 :focus {
-  outline: 3px solid #159AF4;
+  outline: 3px solid var(--focus);
   outline-offset: -3px;
 }
 
 .selected-item {
-  background-color: #DEDEDE !important;
+  background-color: var(--ui-light-selected) !important;
 }
 
 .label {
@@ -51,22 +84,22 @@ i.fa-check {
   margin-bottom: 4px;
 }
 
-.dropdown {
+.difficulty {
   position: relative;
   display: inline-block;
 }
 
 .dropdown-button {
-  background-color: white;
+  background-color: var(--ui-light);
   color: black;
   text-align: left;
   width: 312px;
-  height: 46px;
+  height: 44px;
   transform: translateY(-1px);
   padding: 0 16px;
   margin-top: 16px;
   border: none;
-  border-bottom: 2px solid #31454E;
+  border-bottom: 4px solid var(--ui-accent);
   box-sizing: content-box;
   display: flex;
   flex-direction: row;
@@ -76,7 +109,7 @@ i.fa-check {
 }
 
 .dropdown-button:hover {
-  background-color: #EFEFEF;
+  background-color: var(--ui-light-hover);
   cursor: pointer;
 }
 
@@ -84,11 +117,11 @@ i.fa-check {
   display: none;
   position: absolute;
   flex-direction: column;
-  box-shadow: 0 0 8px #31454E;
+  box-shadow: 0 0 8px var(--ui-accent);
 }
 
 .dropdown-item {
-  background-color: white;
+  background-color: var(--ui-light);
   color: black;
   text-align: left;
   width: 312px;
@@ -105,7 +138,7 @@ i.fa-check {
 }
 
 .dropdown-item:hover {
-  background-color: #EFEFEF;
+  background-color: var(--ui-light-hover);
   cursor: pointer;
 }
 
@@ -124,4 +157,98 @@ i.fa-check {
 
 .stats-value {
   margin-left: 8px;
+}
+
+.game {
+  background-color: var(--background-dark);
+}
+
+.game-toolbar {
+  width: 100%;
+  height: 64px;
+  background: var(--ui-dark);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.toolbar-text {
+  width: 40px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.toolbar-section {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.toolbar-icon {
+  height: 32px;
+  width: 32px;
+  margin-right: 8px;
+}
+
+.icon-button {
+  height: 48px;
+  width: 48px;
+  text-align: center;
+  border: none;
+  background-color: inherit;
+  transition: background-color 0.25s ease;
+}
+
+.icon-button:hover {
+  cursor: pointer;
+  background-color: var(--ui-dark-hover);
+}
+
+.game {
+  border: 4px solid var(--ui-accent);
+}
+
+.game-board {
+  display: column;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-board:hover {
+  cursor: pointer;
+}
+
+.game-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-tile {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.revealed-light-tile {
+  background-color: var(--light-revealed-tile);
+}
+
+.revealed-dark-tile {
+  background-color: var(--dark-revealed-tile);
+}
+
+.light-tile {
+  background-color: var(--light-tile);
+}
+
+.dark-tile {
+  background-color: var(--dark-tile);
 }

@@ -14,13 +14,15 @@
 <body>
   <h1 class="page-header">Welcome to Minesweeper!</h1>
   <div class="config">
-    <div class="dropdown">
+    <div class="difficulty">
       <p class="label">Difficulty:</p>
-      <button class="dropdown-button">Easy<i class="fas fa-chevron-down"></i></button>
-      <div class="dropdown-menu" id="difficulty">
-        <button class="dropdown-item" id="diff-0">Easy</button>
-        <button class="dropdown-item" id="diff-1">Medium</button>
-        <button class="dropdown-item" id="diff-2">Hard</button>
+      <div class="dropdown">
+        <button class="dropdown-button">Easy<i class="fas fa-chevron-down"></i></button>
+        <div class="dropdown-menu" id="difficulty">
+          <button class="dropdown-item" id="diff-0">Easy</button>
+          <button class="dropdown-item" id="diff-1">Medium</button>
+          <button class="dropdown-item" id="diff-2">Hard</button>
+        </div>
       </div>
     </div>
     <div class="stats">
@@ -33,6 +35,23 @@
         <p class="stats-label">Number of mines:</p>
         <p class="stats-value"><span id="numMines"></span></p>
       </div>
+    </div>
+  </div>
+  <div class="game">
+    <div class="game-toolbar">
+      <div class="toolbar-section">
+        <img class="toolbar-icon" src="assets/flag.png" />
+        <p class="toolbar-text"><span id="numFlags"></span></p>
+      </div>
+      <div class="toolbar-section">
+        <img class="toolbar-icon" src="assets/clock.png" />
+        <p class="toolbar-text"><span id="amtTime"></span></p>
+      </div>
+      <div class="toolbar-section">
+        <button class="icon-button" id="resetButton"><i class="fas fa-redo-alt"></i></button>
+      </div>
+    </div>
+    <div class="game-board">
     </div>
   </div>
 </body>
