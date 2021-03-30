@@ -10,8 +10,8 @@ var difficultyDefinitions = {
     mines: 40
   },
   2: {
-    rows: 16,
-    cols: 30,
+    rows: 18,
+    cols: 32,
     mines: 99
   },
 }
@@ -29,6 +29,7 @@ var timerStarted = false;
 
 // helper function to reset board
 function resetBoard() {
+
   determineBoard(gameDifficulty);
 }
 
@@ -52,14 +53,14 @@ function incrementTime() {
   let mins = parseInt(timerMins);
   let secs = parseInt(timerSecs);
 
-  if(mins === '59') {
-    if(secs === '59') {
+  if(mins === 59) {
+    if(secs === 59) {
       stopTimer();
     } else {
       secs++;
     }
   } else {
-    if(secs === '59') {
+    if(secs === 59) {
       mins++;
       secs = 0;
     } else {
@@ -78,8 +79,6 @@ function incrementTime() {
   timerMins = minsStr;
   timerSecs = secsStr;
   drawTimer();
-
-  console.log(timerMins + ":" + timerSecs);
 }
 
 // function to draw the time
@@ -126,6 +125,7 @@ function determineBoard(diff) {
   mines = [];
   gameBoard = {};
 
+  stopTimer();
   drawTimer();
 
   // determine which tiles are mines
