@@ -26,23 +26,39 @@ var timer;
 var timerMins;
 var timerSecs;
 var timerStarted = false;
+var gameLost = false;
 
 // helper function to reset board
 function resetBoard() {
 
+  stopTimer();
   determineBoard(gameDifficulty);
+
+  numRemainingMines = difficultyDefinitions[gameDifficulty].mines;
+  updateFlags();
+  
+  gameLost = false;
 }
 
 // function to start the timer
 function startTimer() {
+
+  // remove redundant event listeners
   if(timerStarted) return;
+
+  // if game is lost, don't start the timer again
+  if(gameLost) return;
 
   timerStarted = true;
   timer = setInterval(incrementTime, ONE_SECOND);
 }
 
 // function to stop the timer
-function stopTimer() {
+function stopTimer(isLost) {
+
+  // if game lost, terminate the timer
+  if(isLost) gameLost = true;
+
   timerStarted = false;
   clearInterval(timer);
 }
@@ -104,12 +120,12 @@ function updateDifficulty(diff) {
   numRemainingMines = diffDef.mines;
   gameDifficulty = parseInt(diff);
 
-  updateFlags(diffDef);
+  updateFlags();
   determineBoard(diff);
 }
 
 // update number of flags left
-function updateFlags(diffDef) {
+function updateFlags() {
 
   document.getElementById('numFlags').textContent = numRemainingMines;
 }
@@ -125,7 +141,6 @@ function determineBoard(diff) {
   mines = [];
   gameBoard = {};
 
-  stopTimer();
   drawTimer();
 
   // determine which tiles are mines
@@ -165,8 +180,8 @@ function determineBoard(diff) {
 // set the correct number for each tile
 function numAdjacentMines(i) {
 
-  let rows = difficultyDefinitions[gameDifficulty].rows;
-  let cols = difficultyDefinitions[gameDifficulty].cols;
+  let rows = parseInt(difficultyDefinitions[gameDifficulty].rows);
+  let cols = parseInt(difficultyDefinitions[gameDifficulty].cols);
 
   // return -1 if this tile is a mine
   if(gameBoard[i].type === "mine") return -1;
@@ -177,42 +192,44 @@ function numAdjacentMines(i) {
   }
 
   // if top right corner
-  if(i === cols - 1) {
+  else if(i === cols - 1) {
     return [isMine(i - 1), isMine(i + cols), isMine(i + cols - 1)].filter(Boolean).length;
   }
 
   // if bottom left corner
-  if(i === (rows - 1) * cols) {
+  else if(i === (rows - 1) * cols) {
     return [isMine(i + 1), isMine(i - cols), isMine(i - cols + 1)].filter(Boolean).length;
   }
 
   // if bottom right corner
-  if(i === rows * cols - 1) {
+  else if(i === rows * cols - 1) {
     return [isMine(i - 1), isMine(i - cols), isMine(i - cols - 1)].filter(Boolean).length;
   }
 
   // if top edge
-  if(i < cols) {
+  else if(i < cols) {
     return [isMine(i - 1), isMine(i + 1), isMine(i + cols - 1), isMine(i + cols), isMine(i + cols + 1)].filter(Boolean).length;
   }
 
   // if left edge
-  if (Math.trunc(i / cols) === i / cols) {
+  else if (Math.trunc(i / cols) === i / cols) {
     return [isMine(i + 1), isMine(i + cols), isMine(i + cols + 1), isMine(i - cols), isMine(i - cols + 1)].filter(Boolean).length;
   }
 
   // if right edge
-  if (Math.trunc((i + 1) / cols) === (i + 1) / cols) {
+  else if (Math.trunc((i + 1) / cols) === (i + 1) / cols) {
     return [isMine(i - 1), isMine(i - cols), isMine(i - cols - 1), isMine(i + cols), isMine(i + cols - 1)].filter(Boolean).length;
   }
 
   // if bottom edge
-  if (i > (rows - 1) * cols) {
+  else if (i > (rows - 1) * cols) {
     return [isMine(i - 1), isMine(i + 1), isMine(i - cols - 1), isMine(i - cols), isMine(i - cols + 1)].filter(Boolean).length;
   }
 
   // else, it's a middle square
-  return [isMine(i - cols - 1), isMine(i - cols), isMine(i - cols + 1), isMine(i - 1), isMine(i + 1), isMine(i + cols - 1), isMine(i + cols), isMine(i + cols + 1)].filter(Boolean).length;
+  else {
+    return [isMine(i - cols - 1), isMine(i - cols), isMine(i - cols + 1), isMine(i - 1), isMine(i + 1), isMine(i + cols - 1), isMine(i + cols), isMine(i + cols + 1)].filter(Boolean).length;
+  }
 }
 
 // helper function to determine if the given tile is a mine
@@ -290,42 +307,194 @@ function drawBoard(rows, cols) {
 
     // add click event listener
     newTile.addEventListener('click', revealTile)
-
+    newTile.addEventListener('contextmenu', toggleFlag);
   }
 
   // add event listener to start timer
   document.getElementsByClassName('game-board')[0].addEventListener('click', startTimer);
 }
 
-// function for revealing the tile after clicking on it
-function revealTile(e) {
+// function for toggling a flag on the tile after right clicking on it
+function toggleFlag(e) {
+
+  e.preventDefault();
 
   let tile = e.target.closest('.game-tile');
   let tileId = tile.id;
-  let contentSize;
 
-  // if tile is already revealed, return
+  // do nothing if tile is already revealed
+  if (gameBoard[tileId].revealed) return;
+
+  // remove flag if already there, add flag if not there
+  if(gameBoard[tileId].flagged) {
+
+    // remove the flag icon
+    tile.removeChild(tile.lastChild);
+    tile.classList.remove('flagged-tile');
+
+    // update variables
+    numRemainingMines++;
+
+  } else {
+
+    // add the flag icon
+    let flag = document.createElement('img');
+    flag.setAttribute('src', 'assets/flag-game.png');
+
+    tile.appendChild(flag);
+    tile.classList.add('flagged-tile');
+
+    // update variables
+    numRemainingMines--;
+
+  }
+
+  gameBoard[tileId].flagged = !gameBoard[tileId].flagged;
+  updateFlags();
+}
+
+// function for revealing the tile after left clicking on it
+function revealTile(e) {
+
+  let tile;
+  let tileId;
+  let isSystemPrompt;
+
+  // determine if this is user prompt or system prompt
+  if(typeof e === "object") {
+    tile = e.target.closest('.game-tile');
+    tileId = parseInt(tile.id);
+    isSystemPrompt = false;
+  } else {
+    tile = document.getElementById(e);
+    tileId = parseInt(e);
+    isSystemPrompt = true;
+  }
+
+  // if tile is already revealed, do nothing
   if(gameBoard[tileId].revealed) return;
 
-  // determine mine/number size
-  switch(gameDifficulty) {
-    case 0:
-     contentSize = "36px";
-     break;
-    case 1:
-      contentSize = "24px";
-      break;
-    case 2:
-      contentSize = "16px";
-      break;
+  // if tile is flagged by user, do nothing
+  if(gameBoard[tileId].flagged && !isSystemPrompt) return;
+
+  // change background color
+  tile.classList.add('revealed-tile');
+  if(tile.classList.contains('light-tile')) {
+    tile.classList.remove('light-tile');
+    tile.classList.add('revealed-light-tile');
+  } else {
+    tile.classList.remove('dark-tile');
+    tile.classList.add('revealed-dark-tile');
+  }
+
+  // remove flag if the tile was flagged
+  if(gameBoard[tileId].flagged) {
+
+    // remove the flag icon
+    tile.removeChild(tile.lastChild);
+    tile.classList.remove('flagged-tile');
+
+    // update variables
+    numRemainingMines++;
+    gameBoard[tileId].flagged = !gameBoard[tileId].flagged;
+    updateFlags();
+  }
+
+  gameBoard[tileId].revealed = true;
+
+  // if tile is a blank tile, open the other tiles around it too
+  if(gameBoard[tileId].num === 0) {
+
+    let rows = parseInt(difficultyDefinitions[gameDifficulty].rows);
+    let cols = parseInt(difficultyDefinitions[gameDifficulty].cols);
+
+    // if top left corner
+    if(tileId === 0) {
+      revealTile(tileId + 1);
+      revealTile(tileId + cols);
+      revealTile(tileId + cols + 1);
+    }
+
+    // if top right corner
+    else if(tileId === cols - 1) {
+      revealTile(tileId - 1);
+      revealTile(tileId + cols);
+      revealTile(tileId + cols - 1);
+    }
+
+    // if bottom left corner
+    else if(tileId === (rows - 1) * cols) {
+      revealTile(tileId + 1);
+      revealTile(tileId - cols);
+      revealTile(tileId - cols + 1);
+    }
+
+    // if bottom right corner
+    else if(tileId === rows * cols - 1) {
+      revealTile(tileId - 1);
+      revealTile(tileId - cols);
+      revealTile(tileId - cols - 1);
+    }
+
+    // if top edge
+    else if(tileId < cols) {
+      revealTile(tileId - 1);
+      revealTile(tileId + 1);
+      revealTile(tileId + cols - 1);
+      revealTile(tileId + cols);
+      revealTile(tileId + cols + 1);
+    }
+
+    // if left edge
+    else if (Math.trunc(tileId / cols) === tileId / cols) {
+      revealTile(tileId + 1);
+      revealTile(tileId + cols);
+      revealTile(tileId + cols + 1);
+      revealTile(tileId - cols);
+      revealTile(tileId - cols + 1);
+    }
+
+    // if right edge
+    else if (Math.trunc((tileId + 1) / cols) === (tileId + 1) / cols) {
+      revealTile(tileId - 1);
+      revealTile(tileId - cols);
+      revealTile(tileId - cols - 1);
+      revealTile(tileId + cols);
+      revealTile(tileId + cols - 1);
+    }
+
+    // if bottom edge
+    else if (tileId > (rows - 1) * cols) {
+      revealTile(tileId - 1);
+      revealTile(tileId + 1);
+      revealTile(tileId - cols - 1);
+      revealTile(tileId - cols);
+      revealTile(tileId - cols + 1);
+    }
+
+    // else, it's a middle square
+    else {
+      revealTile(tileId - cols - 1);
+      revealTile(tileId - cols);
+      revealTile(tileId - cols + 1);
+      revealTile(tileId - 1);
+      revealTile(tileId + 1);
+      revealTile(tileId + cols - 1);
+      revealTile(tileId + cols);
+      revealTile(tileId + cols + 1);
+
+    }
   }
 
   // if revealed tile is a mine
-  if(gameBoard[tileId].type === "mine") {
+  else if(gameBoard[tileId].type === "mine") {
     let mine = document.createElement('img');
     mine.setAttribute('src', 'assets/mine.png');
 
     tile.appendChild(mine);
+
+    // you lost!
+    loseGame();
   }
 
   // else if revealed tile has a number
@@ -335,16 +504,21 @@ function revealTile(e) {
 
     tile.appendChild(number);
   }
+}
 
-  // change background color
-  if(tile.classList.contains('light-tile')) {
-    tile.classList.remove('light-tile');
-    tile.classList.add('revealed-light-tile');
-  } else {
-    tile.classList.remove('dark-tile');
-    tile.classList.add('revealed-dark-tile');
+// function for losing the game... bummer!
+function loseGame() {
+
+  // stop the timer!
+  stopTimer(true);
+
+  let curTile;
+
+  // render the entire board unclickable
+  for(let i = 0; i < gameBoard.length; i++) {
+
+    curTile = document.getElementById(gameBoard[i]);
+    curTile.removeEventListener('click', revealTile);
+    curTile.removeEventListener('contextmenu', toggleFlag);
   }
-
-  gameBoard[tileId].revealed = true;
-
 }

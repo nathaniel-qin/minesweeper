@@ -8,6 +8,7 @@ window.onload = function() {
   document.body.addEventListener('click', closeDropdowns);
 
   document.getElementById('resetButton').addEventListener('click', resetBoard);
+  document.getElementsByClassName('game-board')[0].addEventListener('contextmenu', preventRightClick);
 
   let dropdowns = document.getElementsByClassName('dropdown');
   for(let i = 0; i < dropdowns.length; i++) {
@@ -86,4 +87,10 @@ function closeDropdowns() {
   for(let i = 0; i < dropdowns.length; i++) {
     dropdowns[i].style.display = "none";
   }
+}
+
+// prevents right click menu from opening and disrupting the game
+function preventRightClick(e) {
+  e.preventDefault();
+  return false;
 }

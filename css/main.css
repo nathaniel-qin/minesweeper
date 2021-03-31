@@ -13,9 +13,13 @@
   --text-light: #FFFFFF;
   --text-dark: #000000;
   --light-tile: #F3F2ED;
+  --light-tile-hover: #E3E2DD;
   --light-revealed-tile: #ADDEFF;
+  --light-revealed-tile-hover: #9DCEEF;
   --dark-tile: #EFECE3;
+  --dark-tile-hover: #DFDCD3;
   --dark-revealed-tile: #8BC8F1;
+  --dark-revealed-tile-hover: #7BB8E1;
 }
 
 html * {
@@ -160,7 +164,7 @@ i.fa-redo-alt {
 }
 
 .game {
-  background-color: var(--background-dark);
+  background-color: var(--ui-light);
 }
 
 .game-toolbar {
@@ -251,10 +255,22 @@ i.fa-redo-alt {
   background-color: var(--dark-revealed-tile);
 }
 
+.revealed-tile, .flagged-tile {
+  cursor: default;
+}
+
 .light-tile {
   background-color: var(--light-tile);
 }
 
+.light-tile:hover {
+  background-color: var(--light-tile-hover);
+}
+
 .dark-tile {
   background-color: var(--dark-tile);
+}
+
+.dark-tile:hover {
+  background-color: var(--dark-tile-hover);
 }
