@@ -20,6 +20,7 @@
   --dark-tile-hover: #DFDCD3;
   --dark-revealed-tile: #8BC8F1;
   --dark-revealed-tile-hover: #7BB8E1;
+  --mine-tile: #EA996F;
 }
 
 html * {
@@ -100,7 +101,7 @@ i.fa-redo-alt {
   width: 312px;
   height: 44px;
   transform: translateY(-1px);
-  padding: 0 16px;
+  padding: 0 16px 4px 16px;
   margin-top: 16px;
   border: none;
   border-bottom: 4px solid var(--ui-accent);
@@ -110,6 +111,10 @@ i.fa-redo-alt {
   justify-content: space-between;
   align-items: center;
   transition: background-color 0.25s ease;
+}
+
+.dropdown-button i {
+  transform: translateY(4px);
 }
 
 .dropdown-button:hover {
@@ -153,6 +158,7 @@ i.fa-redo-alt {
 .stats-line {
   display: flex;
   flex-direction: row;
+  margin: 6px 0 2px;
 }
 
 .stats-label {
@@ -247,6 +253,58 @@ i.fa-redo-alt {
   align-content: center;
 }
 
+.mine {
+  background-image: url('../assets/mine.png');
+  background-size: contain;
+  background-color: var(--mine-tile) !important;
+}
+
+.flag {
+  background-image: url('../assets/flag-game.png');
+  background-size: contain;
+  cursor: default;
+}
+
+.number-1 {
+  background-image: url('../assets/1.png');
+  background-size: contain;
+}
+
+.number-2 {
+  background-image: url('../assets/2.png');
+  background-size: contain;
+}
+
+.number-3 {
+  background-image: url('../assets/3.png');
+  background-size: contain;
+}
+
+.number-4 {
+  background-image: url('../assets/4.png');
+  background-size: contain;
+}
+
+.number-5 {
+  background-image: url('../assets/5.png');
+  background-size: contain;
+}
+
+.number-6 {
+  background-image: url('../assets/6.png');
+  background-size: contain;
+}
+
+.number-7 {
+  background-image: url('../assets/7.png');
+  background-size: contain;
+}
+
+.number-8 {
+  background-image: url('../assets/8.png');
+  background-size: contain;
+}
+
 .revealed-light-tile {
   background-color: var(--light-revealed-tile);
 }
@@ -255,7 +313,7 @@ i.fa-redo-alt {
   background-color: var(--dark-revealed-tile);
 }
 
-.revealed-tile, .flagged-tile {
+.revealed-tile {
   cursor: default;
 }
 

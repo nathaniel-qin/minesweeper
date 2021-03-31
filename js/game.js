@@ -36,7 +36,7 @@ function resetBoard() {
 
   numRemainingMines = difficultyDefinitions[gameDifficulty].mines;
   updateFlags();
-  
+
   gameLost = false;
 }
 
@@ -312,6 +312,7 @@ function drawBoard(rows, cols) {
 
   // add event listener to start timer
   document.getElementsByClassName('game-board')[0].addEventListener('click', startTimer);
+
 }
 
 // function for toggling a flag on the tile after right clicking on it
@@ -329,8 +330,7 @@ function toggleFlag(e) {
   if(gameBoard[tileId].flagged) {
 
     // remove the flag icon
-    tile.removeChild(tile.lastChild);
-    tile.classList.remove('flagged-tile');
+    tile.classList.remove('flag');
 
     // update variables
     numRemainingMines++;
@@ -338,11 +338,7 @@ function toggleFlag(e) {
   } else {
 
     // add the flag icon
-    let flag = document.createElement('img');
-    flag.setAttribute('src', 'assets/flag-game.png');
-
-    tile.appendChild(flag);
-    tile.classList.add('flagged-tile');
+    tile.classList.add('flag');
 
     // update variables
     numRemainingMines--;
@@ -391,8 +387,7 @@ function revealTile(e) {
   if(gameBoard[tileId].flagged) {
 
     // remove the flag icon
-    tile.removeChild(tile.lastChild);
-    tile.classList.remove('flagged-tile');
+    tile.classList.remove('flag');
 
     // update variables
     numRemainingMines++;
@@ -488,10 +483,7 @@ function revealTile(e) {
 
   // if revealed tile is a mine
   else if(gameBoard[tileId].type === "mine") {
-    let mine = document.createElement('img');
-    mine.setAttribute('src', 'assets/mine.png');
-
-    tile.appendChild(mine);
+    tile.classList.add('mine');
 
     // you lost!
     loseGame();
@@ -499,10 +491,7 @@ function revealTile(e) {
 
   // else if revealed tile has a number
   else if(gameBoard[tileId].num > 0) {
-    let number = document.createElement('img');
-    number.setAttribute('src', 'assets/' + gameBoard[tileId].num + '.png')
-
-    tile.appendChild(number);
+    tile.classList.add(`number-${gameBoard[tileId].num}`)
   }
 }
 
