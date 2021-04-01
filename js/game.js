@@ -21,23 +21,25 @@ var ONE_SECOND = 1000;
 var gameDifficulty;
 var gameBoard;
 var mines;
+var numRemainingTiles;
 var numRemainingMines = 10;
 var timer;
 var timerMins;
 var timerSecs;
 var timerStarted = false;
-var gameLost = false;
+var gameOver = false;
 
 // helper function to reset board
 function resetBoard() {
 
+  gameOver = false;
+  document.getElementsByClassName('game-over-modal-overlay')[0].style.display = 'none';
+  numRemainingMines = difficultyDefinitions[gameDifficulty].mines;
+
   stopTimer();
   determineBoard(gameDifficulty);
 
-  numRemainingMines = difficultyDefinitions[gameDifficulty].mines;
   updateFlags();
-
-  gameLost = false;
 }
 
 // function to start the timer
@@ -46,8 +48,8 @@ function startTimer() {
   // remove redundant event listeners
   if(timerStarted) return;
 
-  // if game is lost, don't start the timer again
-  if(gameLost) return;
+  // if game is over, don't start the timer again
+  if(gameOver) return;
 
   timerStarted = true;
   timer = setInterval(incrementTime, ONE_SECOND);
@@ -56,8 +58,8 @@ function startTimer() {
 // function to stop the timer
 function stopTimer(isLost) {
 
-  // if game lost, terminate the timer
-  if(isLost) gameLost = true;
+  // if game over, terminate the timer
+  if(isLost) gameOver = true;
 
   timerStarted = false;
   clearInterval(timer);
@@ -136,6 +138,7 @@ function determineBoard(diff) {
   let diffDef = difficultyDefinitions[diff];
   let tileType = "";
   let numMinesLeftToDraw = numRemainingMines;
+  numRemainingTiles = diffDef.rows * diffDef.cols;
   timerMins = "00";
   timerSecs = "00";
   mines = [];
@@ -395,7 +398,9 @@ function revealTile(e) {
     updateFlags();
   }
 
+  // update variables
   gameBoard[tileId].revealed = true;
+  numRemainingTiles--;
 
   // if tile is a blank tile, open the other tiles around it too
   if(gameBoard[tileId].num === 0) {
@@ -481,6 +486,11 @@ function revealTile(e) {
     }
   }
 
+  // else if revealed tile has a number
+  else if(gameBoard[tileId].num > 0) {
+    tile.classList.add(`number-${gameBoard[tileId].num}`)
+  }
+
   // if revealed tile is a mine
   else if(gameBoard[tileId].type === "mine") {
     tile.classList.add('mine');
@@ -489,14 +499,36 @@ function revealTile(e) {
     loseGame();
   }
 
-  // else if revealed tile has a number
-  else if(gameBoard[tileId].num > 0) {
-    tile.classList.add(`number-${gameBoard[tileId].num}`)
-  }
+  // if all the mines have been found, win the game!
+  if(numRemainingTiles === mines.length) winGame();
 }
 
 // function for losing the game... bummer!
 function loseGame() {
+
+  // end the game
+  endGame();
+
+  // reveal all mines
+  for(let i = 0; i < mines.length; i++) {
+    document.getElementById(mines[i]).classList.add('mine');
+  }
+}
+
+// function for winning the game. yay!
+function winGame() {
+
+  // end the game
+  endGame();
+
+  // display winning message
+  document.getElementById('finalTime').textContent = `${timerMins}:${timerSecs}`;
+  document.getElementsByClassName('game-over-modal-overlay')[0].style.display = 'flex';
+
+}
+
+// helper function for ending the game
+function endGame() {
 
   // stop the timer!
   stopTimer(true);
@@ -504,10 +536,12 @@ function loseGame() {
   let curTile;
 
   // render the entire board unclickable
-  for(let i = 0; i < gameBoard.length; i++) {
+  for(let i = 0; i < Object.keys(gameBoard).length; i++) {
 
-    curTile = document.getElementById(gameBoard[i]);
+    curTile = document.getElementById(i);
     curTile.removeEventListener('click', revealTile);
     curTile.removeEventListener('contextmenu', toggleFlag);
   }
+
+  document.getElementsByClassName('game-board')[0].classList.add('no-hover');
 }

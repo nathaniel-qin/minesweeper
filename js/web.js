@@ -8,6 +8,7 @@ window.onload = function() {
   document.body.addEventListener('click', closeDropdowns);
 
   document.getElementById('resetButton').addEventListener('click', resetBoard);
+  document.getElementById('playAgainButton').addEventListener('click', resetBoard);
   document.getElementsByClassName('game-board')[0].addEventListener('contextmenu', preventRightClick);
 
   let dropdowns = document.getElementsByClassName('dropdown');

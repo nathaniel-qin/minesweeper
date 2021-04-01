@@ -4,7 +4,7 @@
   <title>Minesweeper</title>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="css/main.css" type="text/css" />
-  <link rel="icon" href="assets/icon.png" />
+  <link rel="icon" href="assets/mine.png" />
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@100;300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/962c52bbf9.js" crossorigin="anonymous"></script>
@@ -48,11 +48,19 @@
         <p class="toolbar-text"><span id="amtTime"></span></p>
       </div>
       <div class="toolbar-section">
+        <button class="icon-button" id="toggleSound"><i id="toggleSoundIcon"></i></button>
         <button class="icon-button" id="resetButton"><i class="fas fa-redo-alt"></i></button>
       </div>
     </div>
     <div class="game-canvas">
       <div class="game-board">
+      </div>
+      <div class="game-over-modal-overlay">
+        <div class="game-over-modal">
+          <h4 class="modal-header">Woohoo!</h4>
+          <p class="modal-body">You won with a time of <span id='finalTime'></span>!</p>
+          <button class="modal-button" id="playAgainButton">Play again</button>
+        </div>
       </div>
     </div>
   </div>

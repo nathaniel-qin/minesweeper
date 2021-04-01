@@ -5,6 +5,7 @@
   --ui-accent: #31454E;
   --ui-dark: #54646F;
   --ui-dark-hover: #64747F;
+  --ui-overlay: rgba(49, 69, 78, 0.4);
   --background-light: #C6D9E6;
   --background-dark: #9DC0D7;
   --focus: #159AF4;
@@ -96,7 +97,7 @@ i.fa-redo-alt {
 
 .dropdown-button {
   background-color: var(--ui-light);
-  color: black;
+  color: var(--text-dark);
   text-align: left;
   width: 312px;
   height: 44px;
@@ -127,11 +128,12 @@ i.fa-redo-alt {
   position: absolute;
   flex-direction: column;
   box-shadow: 0 0 8px var(--ui-accent);
+  z-index: 1;
 }
 
 .dropdown-item {
   background-color: var(--ui-light);
-  color: black;
+  color: var(--text-dark);
   text-align: left;
   width: 312px;
   height: 48px;
@@ -224,8 +226,9 @@ i.fa-redo-alt {
 }
 
 .game-canvas {
+  position: relative;
   display: flex;
-  align-content: center;
+  flex-direction: row;
   justify-content: center;
 }
 
@@ -238,6 +241,10 @@ i.fa-redo-alt {
 
 .game-board:hover {
   cursor: pointer;
+}
+
+.no-hover:hover {
+  cursor: default !important;
 }
 
 .game-row {
@@ -331,4 +338,58 @@ i.fa-redo-alt {
 
 .dark-tile:hover {
   background-color: var(--dark-tile-hover);
+}
+
+.game-over-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--ui-overlay);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-over-modal {
+  width: 400px;
+  height: 280px;
+  background-color: var(--ui-dark);
+  color: var(--text-light);
+  padding: 24px 48px 48px 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  box-shadow: 0 0 4px 2px var(--ui-accent);
+}
+
+.modal-header {
+  font-size: 42px;
+  font-weight: 800;
+  color: inherit;
+}
+
+.modal-body {
+  margin-top: 16px;
+  font-size: 18px;
+  color: inherit;
+  flex-grow: 1;
+}
+
+.modal-button {
+  width: 192px;
+  height: 48px;
+  text-align: left;
+  padding: 0 16px;
+  align-self: flex-end;
+  background-color: var(--ui-light);
+  border: none;
+  margin: none;
+}
+
+.modal-button:hover {
+  cursor: pointer;
+  background-color: var(--ui-light-hover);
 }
