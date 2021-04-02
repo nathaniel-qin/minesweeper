@@ -351,6 +351,7 @@ i.fa-redo-alt {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: display 0.25s ease;
 }
 
 .game-over-modal {

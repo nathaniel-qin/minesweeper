@@ -29,16 +29,39 @@ var timerSecs;
 var timerStarted = false;
 var gameOver = false;
 
+let pop = new Audio("assets/pop.mp3");
+pop.volume = 0.3;
+let oops = new Audio("assets/oops.mp3");
+oops.volume = 0.5;
+let flagPlace = new Audio("assets/flag-place.mp3");
+flagPlace.volume = 1;
+let flagRemove = new Audio("assets/flag-remove.mp3");
+flagRemove.volume = 0.4;
+let sadge = new Audio("assets/lose-1.mp3");
+sadge.volume = 0.5;
+let yeet = new Audio("assets/win-1.mp3");
+yeet.volume = 0.3;
+let yeeet = new Audio("assets/win-2.mp3");
+yeeet.volume = 0.5;
+yeeet.loop = true;
+
 // helper function to reset board
 function resetBoard() {
 
+  // reset variables
   gameOver = false;
   document.getElementsByClassName('game-over-modal-overlay')[0].style.display = 'none';
   numRemainingMines = difficultyDefinitions[gameDifficulty].mines;
 
+  // reset music
+  yeet.load();
+  yeet.pause();
+  yeeet.load();
+  yeeet.pause();
+
+  // reset game UI
   stopTimer();
   determineBoard(gameDifficulty);
-
   updateFlags();
 }
 
@@ -335,6 +358,9 @@ function toggleFlag(e) {
     // remove the flag icon
     tile.classList.remove('flag');
 
+    flagRemove.load();
+    flagRemove.play();
+
     // update variables
     numRemainingMines++;
 
@@ -342,6 +368,9 @@ function toggleFlag(e) {
 
     // add the flag icon
     tile.classList.add('flag');
+
+    flagPlace.load();
+    flagPlace.play();
 
     // update variables
     numRemainingMines--;
@@ -385,6 +414,12 @@ function revealTile(e) {
     tile.classList.remove('dark-tile');
     tile.classList.add('revealed-dark-tile');
   }
+
+  // play block breaking music
+  pop.load();
+  pop.play().catch(function() {
+    
+  });
 
   // remove flag if the tile was flagged
   if(gameBoard[tileId].flagged) {
@@ -495,8 +530,12 @@ function revealTile(e) {
   else if(gameBoard[tileId].type === "mine") {
     tile.classList.add('mine');
 
+    oops.load();
+    oops.play();
+
     // you lost!
     loseGame();
+    return;
   }
 
   // if all the mines have been found, win the game!
@@ -513,6 +552,14 @@ function loseGame() {
   for(let i = 0; i < mines.length; i++) {
     document.getElementById(mines[i]).classList.add('mine');
   }
+  document.getElementsByClassName('game-over-modal')[0].style.display = 'none';
+  document.getElementsByClassName('game-over-modal-overlay')[0].style.display = 'flex';
+
+  // play losing music
+  setTimeout(function() {
+    sadge.load();
+    sadge.play();
+  }, 200);
 }
 
 // function for winning the game. yay!
@@ -525,6 +572,9 @@ function winGame() {
   document.getElementById('finalTime').textContent = `${timerMins}:${timerSecs}`;
   document.getElementsByClassName('game-over-modal-overlay')[0].style.display = 'flex';
 
+  // play winning music
+  yeet.load();
+  yeet.play();
 }
 
 // helper function for ending the game
@@ -536,12 +586,5 @@ function endGame() {
   let curTile;
 
   // render the entire board unclickable
-  for(let i = 0; i < Object.keys(gameBoard).length; i++) {
-
-    curTile = document.getElementById(i);
-    curTile.removeEventListener('click', revealTile);
-    curTile.removeEventListener('contextmenu', toggleFlag);
-  }
-
   document.getElementsByClassName('game-board')[0].classList.add('no-hover');
 }

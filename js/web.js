@@ -7,6 +7,12 @@ window.onload = function() {
   // add event listeners
   document.body.addEventListener('click', closeDropdowns);
 
+  // make sure winning music will loop
+  yeet.addEventListener('ended', function () {
+    yeeet.play();
+  });
+
+  document.getElementById('toggleSound').addEventListener('click', toggleMute);
   document.getElementById('resetButton').addEventListener('click', resetBoard);
   document.getElementById('playAgainButton').addEventListener('click', resetBoard);
   document.getElementsByClassName('game-board')[0].addEventListener('contextmenu', preventRightClick);
@@ -32,6 +38,14 @@ window.onload = function() {
 // helper function to check if input is a number
 function isNumber(str) {
   return !isNaN(str) && str !== "";
+}
+
+// mutes or unmutes the game sounds
+function toggleMute() {
+
+  let newBool = !yeet.mute;
+
+  yeet.mute, yeeet.mute, sadge.mute, oops.mute, pop.mute = newBool;
 }
 
 // opens or closes the selected dropdown
