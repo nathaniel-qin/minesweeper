@@ -394,3 +394,7 @@ i.fa-redo-alt {
   cursor: pointer;
   background-color: var(--ui-light-hover);
 }
+
+#toggleSoundIcon {
+  color: var(--icon-light);
+}

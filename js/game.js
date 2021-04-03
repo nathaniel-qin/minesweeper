@@ -17,6 +17,14 @@ var difficultyDefinitions = {
 }
 
 var ONE_SECOND = 1000;
+var MUTE_VOLUME = 0;
+var POP_VOLUME = 0.3;
+var OOPS_VOLUME = 0.5;
+var FLAGPLACE_VOLUME = 1;
+var FLAGREMOVE_VOLUME = 0.4;
+var SADGE_VOLUME = 0.5;
+var YEET_VOLUME = 0.3;
+var YEEET_VOLUME = 0.5;
 
 var gameDifficulty;
 var gameBoard;
@@ -28,21 +36,22 @@ var timerMins;
 var timerSecs;
 var timerStarted = false;
 var gameOver = false;
+var isMuted = false;
 
-let pop = new Audio("assets/pop.mp3");
-pop.volume = 0.3;
-let oops = new Audio("assets/oops.mp3");
-oops.volume = 0.5;
-let flagPlace = new Audio("assets/flag-place.mp3");
-flagPlace.volume = 1;
-let flagRemove = new Audio("assets/flag-remove.mp3");
-flagRemove.volume = 0.4;
-let sadge = new Audio("assets/lose-1.mp3");
-sadge.volume = 0.5;
-let yeet = new Audio("assets/win-1.mp3");
-yeet.volume = 0.3;
-let yeeet = new Audio("assets/win-2.mp3");
-yeeet.volume = 0.5;
+var pop = new Audio("assets/pop.mp3");
+pop.volume = POP_VOLUME;
+var oops = new Audio("assets/oops.mp3");
+oops.volume = OOPS_VOLUME;
+var flagPlace = new Audio("assets/flag-place.mp3");
+flagPlace.volume = FLAGPLACE_VOLUME;
+var flagRemove = new Audio("assets/flag-remove.mp3");
+flagRemove.volume = FLAGREMOVE_VOLUME;
+var sadge = new Audio("assets/lose-1.mp3");
+sadge.volume = SADGE_VOLUME;
+var yeet = new Audio("assets/win-1.mp3");
+yeet.volume = YEET_VOLUME;
+var yeeet = new Audio("assets/win-2.mp3");
+yeeet.volume = YEEET_VOLUME;
 yeeet.loop = true;
 
 // helper function to reset board
@@ -54,10 +63,9 @@ function resetBoard() {
   numRemainingMines = difficultyDefinitions[gameDifficulty].mines;
 
   // reset music
-  yeet.load();
   yeet.pause();
-  yeeet.load();
   yeeet.pause();
+  sadge.pause();
 
   // reset game UI
   stopTimer();
@@ -145,8 +153,7 @@ function updateDifficulty(diff) {
   numRemainingMines = diffDef.mines;
   gameDifficulty = parseInt(diff);
 
-  updateFlags();
-  determineBoard(diff);
+  resetBoard();
 }
 
 // update number of flags left
@@ -358,8 +365,11 @@ function toggleFlag(e) {
     // remove the flag icon
     tile.classList.remove('flag');
 
-    flagRemove.load();
-    flagRemove.play();
+    // play sound if not muted
+    if(!isMuted) {
+      flagRemove.load();
+      flagRemove.play();
+    }
 
     // update variables
     numRemainingMines++;
@@ -369,8 +379,11 @@ function toggleFlag(e) {
     // add the flag icon
     tile.classList.add('flag');
 
-    flagPlace.load();
-    flagPlace.play();
+    // play sound if not muted
+    if(!isMuted) {
+      flagPlace.load();
+      flagPlace.play();
+    }
 
     // update variables
     numRemainingMines--;
@@ -415,11 +428,11 @@ function revealTile(e) {
     tile.classList.add('revealed-dark-tile');
   }
 
-  // play block breaking music
-  pop.load();
-  pop.play().catch(function() {
-    
-  });
+  // play block breaking music if not muted
+  if(!isMuted) {
+    pop.load();
+    pop.play().catch(function() { });
+  }
 
   // remove flag if the tile was flagged
   if(gameBoard[tileId].flagged) {
@@ -530,8 +543,11 @@ function revealTile(e) {
   else if(gameBoard[tileId].type === "mine") {
     tile.classList.add('mine');
 
-    oops.load();
-    oops.play();
+    // play music if not muted
+    if(!isMuted) {
+      oops.load();
+      oops.play();
+    }
 
     // you lost!
     loseGame();
@@ -555,11 +571,13 @@ function loseGame() {
   document.getElementsByClassName('game-over-modal')[0].style.display = 'none';
   document.getElementsByClassName('game-over-modal-overlay')[0].style.display = 'flex';
 
-  // play losing music
-  setTimeout(function() {
-    sadge.load();
-    sadge.play();
-  }, 200);
+  // play losing music if not muted
+  if(!isMuted) {
+    setTimeout(function() {
+      sadge.load();
+      sadge.play();
+    }, 200);
+  }
 }
 
 // function for winning the game. yay!
@@ -570,11 +588,14 @@ function winGame() {
 
   // display winning message
   document.getElementById('finalTime').textContent = `${timerMins}:${timerSecs}`;
+  document.getElementsByClassName('game-over-modal')[0].style.dispaly = 'flex';
   document.getElementsByClassName('game-over-modal-overlay')[0].style.display = 'flex';
 
-  // play winning music
-  yeet.load();
-  yeet.play();
+  // play winning music if not muted
+  if(!isMuted) {
+    yeet.load();
+    yeet.play();
+  }
 }
 
 // helper function for ending the game

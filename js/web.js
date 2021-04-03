@@ -43,9 +43,31 @@ function isNumber(str) {
 // mutes or unmutes the game sounds
 function toggleMute() {
 
-  let newBool = !yeet.mute;
+  isMuted = !isMuted;
 
-  yeet.mute, yeeet.mute, sadge.mute, oops.mute, pop.mute = newBool;
+  // toggle sound icon
+  let soundIcon = document.getElementById('toggleSoundIcon');
+  if(isMuted) {
+    soundIcon.classList.remove('fa-volume-up');
+    soundIcon.classList.add('fa-volume-mute');
+    yeet.volume = MUTE_VOLUME;
+    yeeet.volume = MUTE_VOLUME;
+    sadge.volume = MUTE_VOLUME;
+    pop.volume = MUTE_VOLUME;
+    oops.volume = MUTE_VOLUME;
+    flagPlace.volume = MUTE_VOLUME;
+    flagRemove.volume = MUTE_VOLUME;
+  } else {
+    soundIcon.classList.remove('fa-volume-mute');
+    soundIcon.classList.add('fa-volume-up');
+    yeet.volume = YEET_VOLUME;
+    yeeet.volume = YEEET_VOLUME;
+    sadge.volume = SADGE_VOLUME;
+    pop.volume = POP_VOLUME;
+    oops.volume = OOPS_VOLUME;
+    flagPlace.volume = FLAGPLACE_VOLUME;
+    flagRemove.volume = FLAGREMOVE_VOLUME;
+  }
 }
 
 // opens or closes the selected dropdown
