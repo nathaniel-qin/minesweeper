@@ -72,6 +72,7 @@ i.fa-redo-alt {
 .config {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   margin-bottom: 48px;
 }
 
@@ -155,7 +156,7 @@ i.fa-redo-alt {
 }
 
 .stats {
-  margin-left: 64px;
+  margin-left: 48px;
 }
 
 .stats-line {
