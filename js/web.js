@@ -4,18 +4,27 @@ var openOrClosed = [true, false]
 
 window.onload = function() {
 
-  // add event listeners
-  document.body.addEventListener('click', closeDropdowns);
-
   // make sure winning music will loop
   yeet.addEventListener('ended', function () {
     yeeet.play();
   });
 
+  // add event listeners
+  document.body.addEventListener('click', closeDropdowns);
   document.getElementById('toggleSound').addEventListener('click', toggleMute);
   document.getElementById('resetButton').addEventListener('click', resetBoard);
   document.getElementById('playAgainButton').addEventListener('click', resetBoard);
   document.getElementsByClassName('game-board')[0].addEventListener('contextmenu', preventRightClick);
+
+  let iconButtonWrapper = document.getElementsByClassName('icon-button-wrapper');
+
+  for(let el of iconButtonWrapper) {
+    el.addEventListener('mouseenter', showTooltips);
+  }
+
+  for(let el of iconButtonWrapper) {
+    el.addEventListener('mouseleave', hideTooltips);
+  }
 
   let dropdowns = document.getElementsByClassName('dropdown');
   for(let i = 0; i < dropdowns.length; i++) {
@@ -124,6 +133,28 @@ function closeDropdowns() {
   for(let i = 0; i < dropdowns.length; i++) {
     dropdowns[i].style.display = "none";
   }
+}
+
+// function to show tooltips on hover
+function showTooltips(e) {
+
+  let tooltip = e.target.querySelector('.tooltip');
+  tooltip.style.display = "block";
+
+  setTimeout(function() {
+    tooltip.style.opacity = 1;
+  }, 0);
+}
+
+// function to hide tooltips on hover
+function hideTooltips(e) {
+
+  let tooltip = e.target.querySelector('.tooltip');
+  tooltip.style.opacity = 0;
+
+  setTimeout(function() {
+    tooltip.style.display = "none";
+  }, 100);
 }
 
 // prevents right click menu from opening and disrupting the game

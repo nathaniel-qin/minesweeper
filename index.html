@@ -48,8 +48,18 @@
         <p class="toolbar-text"><span id="amtTime"></span></p>
       </div>
       <div class="toolbar-section">
-        <button class="icon-button" id="toggleSound"><i id="toggleSoundIcon" class="fas fa-volume-up"></i></button>
-        <button class="icon-button" id="resetButton"><i class="fas fa-redo-alt"></i></button>
+        <div class="icon-button-wrapper">
+          <div class="tooltip">
+            <p class="tooltip-text">Toggle&nbsp;sound</p>
+          </div>
+          <button class="icon-button" id="toggleSound"><i id="toggleSoundIcon" class="fas fa-volume-up"></i></button>
+        </div>
+        <div class="icon-button-wrapper">
+          <div class="tooltip">
+            <p class="tooltip-text">Restart</p>
+          </div>
+          <button class="icon-button" id="resetButton"><i class="fas fa-redo-alt"></i></button>
+        </div>
       </div>
     </div>
     <div class="game-canvas">

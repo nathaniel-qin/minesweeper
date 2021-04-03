@@ -6,19 +6,20 @@
   --ui-dark: #54646F;
   --ui-dark-hover: #64747F;
   --ui-overlay: rgba(49, 69, 78, 0.4);
-  --background-light: #C6D9E6;
-  --background-dark: #9DC0D7;
+  --background-light-01: #EAF4FB;
+  --background-light-02: #C4EAFF;
   --focus: #159AF4;
   --icon-dark: #1586C1;
   --icon-light: #FFFFFF;
   --text-light: #FFFFFF;
-  --text-dark: #000000;
-  --light-tile: #F3F2ED;
-  --light-tile-hover: #E3E2DD;
+  --text-dark-01: #54646F;
+  --text-dark-02: #3B444A;
+  --light-tile: #FBF5E1;
+  --light-tile-hover: #EBE5D1;
   --light-revealed-tile: #ADDEFF;
   --light-revealed-tile-hover: #9DCEEF;
-  --dark-tile: #EFECE3;
-  --dark-tile-hover: #DFDCD3;
+  --dark-tile: #F2ECD4;
+  --dark-tile-hover: #E2DCC4;
   --dark-revealed-tile: #8BC8F1;
   --dark-revealed-tile-hover: #7BB8E1;
   --mine-tile: #EA996F;
@@ -27,14 +28,15 @@
 html * {
   font-family: 'Be Vietnam', sans-serif;
   font-weight: 400;
-  color: var(--text-dark);
+  color: var(--text-dark-02);
 }
 
 body {
   box-sizing: border-box;
-  background-color: var(--background-light);
+  background: radial-gradient(circle at top left, var(--background-light-01), var(--background-light-02));
   padding: 64px 20%;
   margin: 0;
+  min-height: 100vh;
 }
 
 body * {
@@ -51,6 +53,7 @@ button {
 h1 {
   font-size: 48px;
   font-weight: 800;
+  margin-bottom: 32px;
 }
 
 span {
@@ -70,10 +73,6 @@ i.fa-redo-alt {
   display: flex;
   flex-direction: row;
   margin-bottom: 48px;
-}
-
-.page-header {
-  margin-bottom: 32px;
 }
 
 :focus {
@@ -97,7 +96,7 @@ i.fa-redo-alt {
 
 .dropdown-button {
   background-color: var(--ui-light);
-  color: var(--text-dark);
+  color: var(--text-dark-02);
   text-align: left;
   width: 312px;
   height: 44px;
@@ -112,6 +111,7 @@ i.fa-redo-alt {
   justify-content: space-between;
   align-items: center;
   transition: background-color 0.25s ease;
+  user-select: none;
 }
 
 .dropdown-button i {
@@ -128,12 +128,12 @@ i.fa-redo-alt {
   position: absolute;
   flex-direction: column;
   box-shadow: 0 0 8px var(--ui-accent);
-  z-index: 1;
+  z-index: 2;
 }
 
 .dropdown-item {
   background-color: var(--ui-light);
-  color: var(--text-dark);
+  color: var(--text-dark-02);
   text-align: left;
   width: 312px;
   height: 48px;
@@ -146,6 +146,7 @@ i.fa-redo-alt {
   justify-content: space-between;
   align-items: center;
   transition: background-color 0.25s ease;
+  user-select: none;
 }
 
 .dropdown-item:hover {
@@ -185,6 +186,9 @@ i.fa-redo-alt {
   align-items: center;
   padding: 0 16px;
   box-sizing: border-box;
+  user-select: none;
+  z-index: 1;
+  position: relative;
 }
 
 .toolbar-text {
@@ -207,6 +211,42 @@ i.fa-redo-alt {
   margin-right: 8px;
 }
 
+.icon-button-wrapper {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 56px;
+  padding: 8px 0;
+  width: 128px;
+  margin-left: -40px;
+  text-align: center;
+  box-sizing: border-box;
+  background-color: var(--ui-light);
+  display: none;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  border-radius: 2px;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -4px;
+  border-width: 4px;
+  border-style: solid;
+  border-color: var(--ui-light) transparent transparent transparent;
+}
+
+.tooltip-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark-01);
+}
+
 .icon-button {
   height: 48px;
   width: 48px;
@@ -223,6 +263,7 @@ i.fa-redo-alt {
 
 .game {
   border: 4px solid var(--ui-accent);
+  background-color: var(--ui-light);
 }
 
 .game-canvas {
@@ -383,11 +424,14 @@ i.fa-redo-alt {
   width: 192px;
   height: 48px;
   text-align: left;
+  font-weight: 800;
   padding: 0 16px;
   align-self: flex-end;
   background-color: var(--ui-light);
+  color: var(--text-dark-02);
   border: none;
   margin: none;
+  user-select: none;
 }
 
 .modal-button:hover {
