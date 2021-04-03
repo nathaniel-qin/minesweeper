@@ -588,7 +588,7 @@ function winGame() {
 
   // display winning message
   document.getElementById('finalTime').textContent = `${timerMins}:${timerSecs}`;
-  document.getElementsByClassName('game-over-modal')[0].style.dispaly = 'flex';
+  document.getElementsByClassName('game-over-modal')[0].style.display = 'flex';
   document.getElementsByClassName('game-over-modal-overlay')[0].style.display = 'flex';
 
   // play winning music if not muted
