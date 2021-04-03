@@ -587,6 +587,10 @@ function winGame() {
   endGame();
 
   // display winning message
+  numRemainingMines = 0;
+  updateFlags();
+
+  console.log(numRemainingMines);
   document.getElementById('finalTime').textContent = `${timerMins}:${timerSecs}`;
   document.getElementsByClassName('game-over-modal')[0].style.display = 'flex';
   document.getElementsByClassName('game-over-modal-overlay')[0].style.display = 'flex';
